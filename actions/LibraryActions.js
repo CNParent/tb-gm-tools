@@ -24,14 +24,20 @@ let rollOnTable = ({ table, modifier, tables }) => {
         alert(`Error - rolled ${roll} on table ${table.name}`);
         return;
     }
+
+    let description = result.name;
+    if (result.amount) {
+        let amount = roller.roll(result.amount);
+        description = `${description} (${amount})`;
+    }
     
     let results = [{
         roll,
         table: table.name,
-        description: result.name
+        description: description
     }];
 
-    if(!result.table) return results;
+    if (!result.table) return results;
 
     table = tables.find(x => x.name == result.table);
     return results.concat(rollOnTable({ table, modifier, tables }));
