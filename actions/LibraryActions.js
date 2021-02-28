@@ -31,9 +31,9 @@ let rollOnTable = ({ table, modifier, tables }) => {
         description: result.name
     }];
 
-    if(!result.isTable) return results;
+    if(!result.table) return results;
 
-    table = tables.find(x => x.name == result.name);
+    table = tables.find(x => x.name == result.table);
     return results.concat(rollOnTable({ table, modifier, tables }));
 }
 
