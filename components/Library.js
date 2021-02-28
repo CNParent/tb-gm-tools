@@ -26,7 +26,7 @@ export default class Library extends Component {
                         </div>
                     </div>
                 </div>
-                <div class="d-flex">
+                <div class="d-flex flex-wrap">
                     ${this.state.tables.map(x => this.drawTable(x)).reduce((a,b) => `${a}${b}`, '')}
                 </div>
             </div>
