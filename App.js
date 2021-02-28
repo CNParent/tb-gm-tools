@@ -12,9 +12,8 @@ export default class App extends Component {
                     </div>
                 </div>
                 <hr />
-                ${this.add(new Library('library', this.state.tables))}
+                ${this.add(new Library('library', { tables: this.state.tables }))}
             </div>
         `;
     }
-
 }

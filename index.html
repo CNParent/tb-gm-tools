@@ -7,12 +7,20 @@
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
 </head>
 <body>
-    <div id="app"></div>
+    <div id="app">Fetching table data...</div>
     <script type="module">
         import App from './App.js';
+        import TableRepository from './lib/TableRepository.js'
 
-        let app = new App('app', { value: 0 })
-        app.update();
+        let run = async () => {
+            let tr = new TableRepository();
+            await tr.loadData();
+
+            let app = new App('app', { tables: tr.tables, value: 0 })
+            app.update();
+        }
+
+        run();
     </script>
 </body>
 </html>
