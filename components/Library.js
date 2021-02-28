@@ -1,5 +1,6 @@
 import Component from '../lib/Component.js';
 import { rollClick } from '../actions/LibraryActions.js';
+import styles from '../styles.js';
 
 export default class Library extends Component {
 
@@ -25,7 +26,7 @@ export default class Library extends Component {
                         </div>
                     </div>
                 </div>
-                <div class="list-group">
+                <div class="d-flex">
                     ${this.state.tables.map(x => this.drawTable(x)).reduce((a,b) => `${a}${b}`, '')}
                 </div>
             </div>
@@ -44,7 +45,7 @@ export default class Library extends Component {
         if(this.state.filter && table.name.toLowerCase().indexOf(this.state.filter.toLowerCase()) < 0) return '';
 
         return String.raw`
-            <a href="javascript:;" class="list-group-item list-group-item-action" data-table="${table.name}" data-roll="">${table.name}</a>
+            <a href="javascript:;" class="${styles.btn}" data-table="${table.name}" data-roll="">${table.name}</a>
         `;
     }
 

@@ -20,7 +20,7 @@ let rollOnTable = ({ table, modifier, tables }) => {
     let roll = roller.roll(table.roll + modifier);
     let result;
     table.entries.map(e => { if(roll >= e.min && roll <= e.max) result = e });
-    if(!result) {
+    if (!result) {
         alert(`Error - rolled ${roll} on table ${table.name}`);
         return;
     }
