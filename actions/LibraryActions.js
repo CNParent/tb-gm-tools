@@ -18,8 +18,8 @@ let rollClick = ({ control, target }) => {
 
 let rollOnTable = ({ table, modifier, tables }) => {
     let roll = roller.roll(table.roll + modifier);
-    let max = Math.max(table.entries.map(x => x.max));
-    let min = Math.min(table.entries.map(x => x.min));
+    let max = Math.max(...table.entries.map(x => x.max));
+    let min = Math.min(...table.entries.map(x => x.min));
     if (roll > max) roll = max;
     if (roll < min) roll = min;
 

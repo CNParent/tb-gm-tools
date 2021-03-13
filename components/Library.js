@@ -78,14 +78,18 @@ export default class Library extends Component {
     initialize() {
         super.initialize();
 
+        this.findOne('[data-category]').addEventListener('change', x => {
+            this.state.category = x.target.value;
+            this.update();
+        });
+
         this.findOne('[data-filter]').addEventListener('change', x => {
             this.state.filter = x.target.value;
             this.update();
         });
 
-        this.findOne('[data-category]').addEventListener('change', x => {
-            this.state.category = x.target.value;
-            this.update();
+        this.findOne('[data-modifier]').addEventListener('change', x => {
+            this.state.modifier = x.target.value;
         });
 
         this.find('[data-roll]').forEach(x => x.addEventListener('click', x => rollClick({
