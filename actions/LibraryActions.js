@@ -18,8 +18,12 @@ let rollClick = ({ control, target }) => {
 
 let rollOnTable = ({ table, modifier, tables }) => {
     let roll = roller.roll(table.roll + modifier);
-    let result;
-    table.entries.map(e => { if(roll >= e.min && roll <= e.max) result = e });
+    let max = Math.max(table.entries.map(x => x.max));
+    let min = Math.min(table.entries.map(x => x.min));
+    if (roll > max) roll = max;
+    if (roll < min) roll = min;
+
+    let result = table.entries.find(x => x.min <= roll && x.max >= roll);
     if (!result) {
         alert(`Error - rolled ${roll} on table ${table.name}`);
         return;

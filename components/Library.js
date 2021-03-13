@@ -9,27 +9,52 @@ export default class Library extends Component {
         if (!this.state.filter) this.state.filter = '';
         if (!this.state.modifier) this.state.modifier = '';
 
+        let categories = [...new Set(this.state.tables.map(x => x.category))];
         return String.raw`
             <div id="${this.id}">
+            <div class="row">
+            <div class="col-md-6">
                 <div class="row">
                     <div class="col">
+                    <div class="card">
+                    <div class="card-body">
                         <input data-modifier="" class="form-control" placeholder="modifier" value="${this.state.modifier}">
-                        <input data-filter="" class="form-control" placeholder="filter" value="${this.state.filter}">
+                        <input data-filter="" class="form-control"  placeholder="filter" value="${this.state.filter}">
+                        <select data-category="" class="form-control">
+                            <option></option>
+                            ${categories.map(x => this.drawCategory(x)).reduce((a,b) => `${a}${b}`)}
+                        </select>
+                    </div>
+                    </div>
                     </div>
                 </div>
                 <div class="row">
                     <div class="col">
-                        <div class="card">
-                            <div class="card-body">
-                                ${this.drawResults()}
-                            </div>
+                    <div class="card">
+                    <div class="card-body">
+                        <div class="d-flex flex-wrap">
+                            ${this.state.tables.map(x => this.drawTable(x)).reduce((a,b) => `${a}${b}`, '')}
                         </div>
                     </div>
-                </div>
-                <div class="d-flex flex-wrap">
-                    ${this.state.tables.map(x => this.drawTable(x)).reduce((a,b) => `${a}${b}`, '')}
+                    </div>
+                    </div>
                 </div>
             </div>
+            <div class="col">
+                <div class="card">
+                <div class="card-body">
+                    ${this.drawResults()}
+                </div>
+                </div>
+            </div>
+            </div>
+            </div>
+        `;
+    }
+
+    drawCategory(category) {
+        return String.raw`
+            <option ${this.state.category == category ? 'selected="selected"' : ''}>${category}</option>
         `;
     }
 
@@ -43,6 +68,7 @@ export default class Library extends Component {
 
     drawTable(table) {
         if(this.state.filter && table.name.toLowerCase().indexOf(this.state.filter.toLowerCase()) < 0) return '';
+        if(this.state.category && table.category != this.state.category) return '';
 
         return String.raw`
             <a href="javascript:;" class="${styles.btn}" data-table="${table.name}" data-roll="">${table.name}</a>
@@ -54,6 +80,11 @@ export default class Library extends Component {
 
         this.findOne('[data-filter]').addEventListener('change', x => {
             this.state.filter = x.target.value;
+            this.update();
+        });
+
+        this.findOne('[data-category]').addEventListener('change', x => {
+            this.state.category = x.target.value;
             this.update();
         });
 
