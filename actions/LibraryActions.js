@@ -13,7 +13,7 @@ let rollClick = ({ control, target }) => {
         tables: control.state.tables
     });
     
-    control.update();
+    control.parent.update();
 }
 
 let rollOnTable = ({ table, modifier, tables }) => {

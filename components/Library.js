@@ -1,6 +1,5 @@
 import Component from '../lib/Component.js';
-import { rollClick } from '../actions/LibraryActions.js';
-import styles from '../styles.js';
+import Tables from './Tables.js';
 
 export default class Library extends Component {
 
@@ -32,9 +31,7 @@ export default class Library extends Component {
                     <div class="col">
                     <div class="card">
                     <div class="card-body">
-                        <div class="d-flex flex-wrap">
-                            ${this.state.tables.map(x => this.drawTable(x)).reduce((a,b) => `${a}${b}`, '')}
-                        </div>
+                        ${this.add(new Tables('tables', this.state))}
                     </div>
                     </div>
                     </div>
@@ -79,13 +76,8 @@ export default class Library extends Component {
             .reduce((a,b) => `${a}${b}`, '');
     }
 
-    drawTable(table) {
-        if(this.state.filter && table.name.toLowerCase().indexOf(this.state.filter.toLowerCase()) < 0) return '';
-        if(this.state.category && table.category != this.state.category) return '';
-
-        return String.raw`
-            <a href="javascript:;" class="${styles.btn}" data-table="${table.name}" data-roll="">${table.name}</a>
-        `;
+    getTables() {
+        return this.children.find(x => x.id == 'tables');
     }
 
     initialize() {
@@ -93,12 +85,12 @@ export default class Library extends Component {
 
         this.findOne('[data-category]').addEventListener('change', x => {
             this.state.category = x.target.value;
-            this.update();
+            this.getTables().update();
         });
 
-        this.findOne('[data-filter]').addEventListener('change', x => {
+        this.findOne('[data-filter]').addEventListener('keyup', x => {
             this.state.filter = x.target.value;
-            this.update();
+            this.getTables().update();
         });
 
         this.find('[data-down]').forEach(x => x.addEventListener('click', () => {
@@ -122,11 +114,6 @@ export default class Library extends Component {
         this.find('[data-zero]').forEach(x => x.addEventListener('click', () => {
             this.state[x.dataset.zero] = null;
             this.update();
-        }))
-
-        this.find('[data-roll]').forEach(x => x.addEventListener('click', () => rollClick({
-            control: this,
-            target: x
-        })));
+        }));
     }
 }
