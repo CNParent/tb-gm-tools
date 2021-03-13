@@ -5,7 +5,7 @@ const roller = new Dice();
 let rollClick = ({ control, target }) => {
     let tableName = target.dataset.table;
     let table = control.state.tables.find(t => t.name == tableName);
-    let modifier = control.findOne('[data-modifier]').value;
+    let modifier = control.state.modifier;
 
     control.state.results = rollOnTable({
         table,

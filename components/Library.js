@@ -7,7 +7,7 @@ export default class Library extends Component {
     draw() {
         if (!this.state.tables) this.state.tables = [];
         if (!this.state.filter) this.state.filter = '';
-        if (!this.state.modifier) this.state.modifier = '';
+        if (!this.state.modifier) this.state.modifier = '+0';
 
         let categories = [...new Set(this.state.tables.map(x => x.category))];
         return String.raw`
@@ -18,11 +18,11 @@ export default class Library extends Component {
                     <div class="col">
                     <div class="card">
                     <div class="card-body">
-                        <input data-modifier="" class="form-control" placeholder="modifier" value="${this.state.modifier}">
+                        ${[...this.drawModifiers()].reduce((a,b) => `${a}${b}`, '')}
                         <input data-filter="" class="form-control"  placeholder="filter" value="${this.state.filter}">
                         <select data-category="" class="form-control">
                             <option></option>
-                            ${categories.map(x => this.drawCategory(x)).reduce((a,b) => `${a}${b}`)}
+                            ${categories.map(x => this.drawCategory(x)).reduce((a,b) => `${a}${b}`, '')}
                         </select>
                     </div>
                     </div>
@@ -58,6 +58,19 @@ export default class Library extends Component {
         `;
     }
 
+    drawModifiers() {
+        return String.raw`
+            <div class="d-flex">
+                <div class="btn-group m-1">
+                    <a href="javascript:;" data-down="modifier" class="btn btn-light border-dark">&darr;</a>
+                    <a href="javascript:;" class="btn btn-dark border-dark">${this.state.modifier}</a>
+                    <a href="javascript:;" data-up="modifier" class="btn btn-light border-dark">&uarr;</a>
+                </div>
+                <a href="javascript:;" data-zero="modifier" class="btn btn-light border-dark m-1">reset</a>
+            </div>
+        `;
+    }
+
     drawResults() {
         if(!this.state.results || this.state.results.length == 0) return '';
         
@@ -88,13 +101,32 @@ export default class Library extends Component {
             this.update();
         });
 
-        this.findOne('[data-modifier]').addEventListener('change', x => {
-            this.state.modifier = x.target.value;
-        });
+        this.find('[data-down]').forEach(x => x.addEventListener('click', () => {
+            let value = Number(this.state[x.dataset.down]) - 1;
+            if (value >= 0) value = `+${value}`;
+            else value = `${value}`;
 
-        this.find('[data-roll]').forEach(x => x.addEventListener('click', x => rollClick({
+            this.state.modifier = value;
+            this.update();
+        }));
+
+        this.find('[data-up]').forEach(x => x.addEventListener('click', () => {
+            let value = Number(this.state[x.dataset.up]) + 1;
+            if (value >= 0) value = `+${value}`;
+            else value = `${value}`;
+
+            this.state.modifier = value;
+            this.update();
+        }));
+
+        this.find('[data-zero]').forEach(x => x.addEventListener('click', () => {
+            this.state[x.dataset.zero] = null;
+            this.update();
+        }))
+
+        this.find('[data-roll]').forEach(x => x.addEventListener('click', () => rollClick({
             control: this,
-            target: x.target
+            target: x
         })));
     }
 }
