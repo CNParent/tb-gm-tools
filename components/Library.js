@@ -62,7 +62,7 @@ export default class Library extends Component {
         if(!this.state.results || this.state.results.length == 0) return '';
         
         return this.state.results
-            .map(x => String.raw`<p>Rolled ${x.roll} on ${x.table}: ${x.description}</p>`)
+            .map(x => String.raw`<p style="white-space: pre-wrap;">Rolled ${x.roll} on ${x.table}: ${x.description}</p>`)
             .reduce((a,b) => `${a}${b}`, '');
     }
 
