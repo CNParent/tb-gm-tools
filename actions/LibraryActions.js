@@ -44,6 +44,16 @@ let rollOnTable = ({ table, modifier, tables }) => {
     if (!result.table) return results;
 
     table = tables.find(x => x.name == result.table);
+    if (!table) {
+        results.push({ 
+            roll: 0,
+            table: null,
+            description: `Could not find table named ${results[0].table}`
+        })
+
+        return results;
+    }
+
     return results.concat(rollOnTable({ table, modifier, tables }));
 }
 
