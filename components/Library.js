@@ -9,6 +9,7 @@ export default class Library extends Component {
         if (!this.state.modifier) this.state.modifier = '+0';
 
         let categories = [...new Set(this.state.tables.map(x => x.category))];
+        categories.sort((a,b) => a.localeCompare(b));
         return String.raw`
             <div id="${this.id}">
             <div class="row">
