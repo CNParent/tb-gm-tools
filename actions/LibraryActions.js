@@ -48,7 +48,7 @@ let rollOnTable = ({ table, modifier, tables }) => {
         results.push({ 
             roll: 0,
             table: null,
-            description: `Could not find table named ${results[0].table}`
+            description: `Could not find table named ${results[results.length - 1].table}`
         })
 
         return results;
