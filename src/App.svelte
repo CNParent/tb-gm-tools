@@ -10,7 +10,7 @@
 </svelte:head>
 
 <main>
-	<div class="p-1" id="${this.id}">
+	<div class="p-2">
 		<div class="row">
 			<div class="col">
 				<h1>Table Roller</h1>
