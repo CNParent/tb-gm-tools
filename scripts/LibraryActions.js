@@ -1,20 +1,6 @@
-import Dice from '../lib/Dice.js';
+import Dice from './Dice.js';
 
 const roller = new Dice();
-
-let rollClick = ({ control, target }) => {
-    let tableName = target.dataset.table;
-    let table = control.state.tables.find(t => t.name == tableName);
-    let modifier = control.state.modifier;
-
-    control.state.results = rollOnTable({
-        table,
-        modifier,
-        tables: control.state.tables
-    });
-    
-    control.parent.update();
-}
 
 let rollOnTable = ({ table, modifier, tables }) => {
     let roll = roller.roll(table.roll + modifier);
@@ -57,6 +43,6 @@ let rollOnTable = ({ table, modifier, tables }) => {
     return results.concat(rollOnTable({ table, modifier, tables }));
 }
 
-export {
-    rollClick
+export default {
+    rollOnTable
 }
