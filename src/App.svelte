@@ -1,5 +1,4 @@
 <script>
-	import '../css/bootstrap.min.css';
 	import Library from './Library.svelte'
 	import TableRepository from '../scripts/TableRepository.js'
 
