@@ -61,3 +61,9 @@ button:not(:disabled):active {
 button:focus {
 	border-color: #666;
 }
+
+#app .position-topright {
+    position: absolute;
+    top: 0px;
+    right: 0px;
+}
